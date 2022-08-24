@@ -1,0 +1,58 @@
+version: "3.9"
+services:
+  producer:
+    # platform: linux/amd64
+    container_name: producer
+    build:
+      dockerfile: dockerize/Dockerfile
+      context: .
+    volumes:
+      - .:/app
+    networks:
+      - go_network
+    command: "go run app/producer.go"
+    ports:
+      - 8000:8000
+    
+  consumer:
+    # platform: linux/amd64
+    container_name: consumer
+    build:
+      dockerfile: dockerize/Dockerfile
+      context: .
+    volumes:
+      - .:/app
+    networks:
+      - go_network
+    depends_on:
+      - mongo
+    command: "go run app/consumer.go"
+    
+  mongo:
+    container_name: db
+    image: mongo
+    restart: always
+    hostname: mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root
+      MONGO_INITDB_DATABASE: go-example
+    ports:
+      - 27017:27017
+    networks:
+      - go_network
+
+  mongo-express:
+    container_name: db_admin
+    image: mongo-express
+    restart: always
+    ports:
+      - 8081:8081
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: root
+      ME_CONFIG_MONGODB_URL: mongodb://root:root@mongo:27017
+    networks:
+      - go_network
+networks:
+  go_network:
