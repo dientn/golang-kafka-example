@@ -39,7 +39,7 @@ import (
 	"gopkg.in/confluentinc/confluent-kafka-go.v1/kafka"
 	// "github.com/brianvoe/gofakeit/v6"
 
-	"go.mongodb.org/mongo-driver/bson"
+	// "go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"go.mongodb.org/mongo-driver/mongo/readpref"
@@ -77,7 +77,7 @@ func main() {
 
 	// Create db connection
 
-	client, err := mongo.NewClient(options.Client().ApplyURI("mongodb://root:root@localhost:27017/go-example?ssl=false&authSource=admin"))
+	client, err := mongo.NewClient(options.Client().ApplyURI("mongodb://root:root@mongo:27017/go-example?ssl=false&authSource=admin"))
 	if err != nil {
 		log.Fatal(err)
 	}

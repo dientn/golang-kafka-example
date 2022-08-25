@@ -1,5 +1,5 @@
 # Create another stage called "dev" that is based off of our "base" stage (so we have golang available to us)
-FROM golang:1.16-alpine
+FROM amd64/golang:1.16-alpine
 # FROM amd64/node:16-alpine
 
 # Install the air binary so we get live code-reloading when we save files

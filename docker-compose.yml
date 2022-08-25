@@ -1,7 +1,7 @@
 version: "3.9"
 services:
   producer:
-    # platform: linux/amd64
+    platform: linux/amd64
     container_name: producer
     build:
       dockerfile: dockerize/Dockerfile
@@ -10,12 +10,12 @@ services:
       - .:/app
     networks:
       - go_network
-    command: "go run app/producer.go"
+    command: "go run -tags musl app/producer.go"
     ports:
       - 8000:8000
     
   consumer:
-    # platform: linux/amd64
+    platform: linux/amd64
     container_name: consumer
     build:
       dockerfile: dockerize/Dockerfile
@@ -26,7 +26,7 @@ services:
       - go_network
     depends_on:
       - mongo
-    command: "go run app/consumer.go"
+    command: "go run -tags musl app/consumer.go"
     
   mongo:
     container_name: db
